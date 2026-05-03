@@ -1,0 +1,1 @@
+export default function Page(){return <section className='containerX'><h1 className='text-5xl mb-6'>Industries Served</h1><p>Pet Care & Retail, Horticulture & Hydroponics, Water Filtration, Oil & Industrial Processing, Drainage & Infrastructure, Government & Tender Supply, and Industrial Supply & Distribution.</p></section>}

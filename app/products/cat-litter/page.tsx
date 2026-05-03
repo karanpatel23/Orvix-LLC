@@ -1,0 +1,7 @@
+import Link from 'next/link';
+import Disclaimer from '@/components/Disclaimer';
+
+export default function Page(){return <section className='containerX section-pad pt-32 space-y-6'><h1 className='headline !text-5xl'>Cat Litter</h1><p className='subtle max-w-3xl'>ORVIX supports cat litter buyers ranging from individual users to retail and bulk supply partners. Available specifications may vary by material, absorbency profile, packaging format, and buyer requirements.</p><div className='grid md:grid-cols-2 gap-4'><Card t='Who it is for' b='Cat owners, retailers, distributors, shelters, private-label buyers, and bulk procurement teams.'/><Card t='How to choose' b='Select based on absorbency, odor-control needs, clumping preference, dust tolerance, and packaging format.'/></div><Spec/><CTA/><Disclaimer/></section>}
+function Card({t,b}:{t:string;b:string}){return <div className='glass rounded-2xl p-4'><h2 className='text-xl'>{t}</h2><p className='subtle mt-2'>{b}</p></div>}
+function Spec(){return <details className='glass rounded-2xl p-4'><summary>Specification placeholders</summary><p className='subtle mt-2'>Grade/type, granule range, clumping profile, low-dust option (if requested), packaging, MOQ, origin, and documentation available on request.</p></details>}
+function CTA(){return <div className='flex gap-3'><Link href='/contact' className='rounded-full bg-[#c6a56b] px-5 py-3 text-black'>Request Quote</Link><Link href='/contact' className='rounded-full border border-white/25 px-5 py-3'>Request Specification</Link></div>}

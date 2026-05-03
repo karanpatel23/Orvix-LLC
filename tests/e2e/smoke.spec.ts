@@ -1,0 +1,18 @@
+import { test, expect } from '@playwright/test';
+
+const routes = ['/', '/about', '/products', '/products/cat-litter', '/products/leca', '/products/silica-sand', '/products/pebbles', '/products/bleaching-earth-soap-adsorbent', '/industries', '/export-trade', '/government-bulk-supply', '/contact'];
+
+test('main pages load with navbar/footer', async ({ page }) => {
+  for (const route of routes) {
+    await page.goto(route);
+    await expect(page.locator('header')).toBeVisible();
+    await expect(page.locator('footer')).toBeVisible();
+    await expect(page.locator('h1').first()).toBeVisible();
+  }
+});
+
+test('request quote CTA routes to contact', async ({ page }) => {
+  await page.goto('/');
+  await page.getByRole('link', { name: /request a quote/i }).first().click();
+  await expect(page).toHaveURL(/\/contact/);
+});

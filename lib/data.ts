@@ -1,27 +1,11 @@
-export const company = {
-  name: 'ORVIX LLC',
-  location: 'Raleigh, North Carolina, USA',
-  email: 'info@orvixllc.com',
-  markets: ['United States', 'India'],
-  siteUrl: 'https://www.orvixllc.com',
-};
-
-export const navLinks = [
-  { label: 'Home', href: '/' },
-  { label: 'About', href: '/about' },
-  { label: 'Products', href: '/products' },
-  { label: 'Industries', href: '/industries' },
-  { label: 'Export & Trade', href: '/export-trade' },
-  { label: 'Government & Bulk Supply', href: '/government-bulk-supply' },
-  { label: 'Contact', href: '/contact' },
-];
-
-export const legalDisclaimer = 'Product information on this website is provided for general commercial and educational purposes only. Final product suitability depends on buyer specifications, intended use, applicable standards, destination-market requirements, and supporting documentation. ORVIX LLC does not provide legal, customs, tax, veterinary, medical, or regulatory advice.';
-
+export const company = { name: 'ORVIX LLC', location: 'Raleigh, North Carolina, USA', email: 'info@orvixllc.com', markets: ['United States', 'India'], siteUrl: 'https://www.orvixllc.com' };
+export const navLinks = [{ label:'Home',href:'/'},{label:'About',href:'/about'},{label:'Products',href:'/products'},{label:'Industries',href:'/industries'},{label:'Export & Trade',href:'/export-trade'},{label:'Government & Bulk Supply',href:'/government-bulk-supply'},{label:'Contact',href:'/contact'}];
+export const legalDisclaimer='Product information on this website is provided for general commercial and educational purposes only. Final product suitability depends on buyer specifications, intended use, applicable standards, destination-market requirements, and supporting documentation. ORVIX LLC does not provide legal, customs, tax, veterinary, medical, or regulatory advice.';
 export const products = [
-  { slug: 'cat-litter', name: 'Cat Litter', segment: 'B2C + B2B', visual: 'mineral', overview: 'Consumer-ready and bulk cat litter for households, retailers, distributors, shelters, and private-label programs.', uses: ['Absorbency profile selection', 'Odor control support', 'Clumping and non-clumping options'], buyers: ['Individual consumers', 'Retailers', 'Distributors', 'Shelters', 'Private label buyers'] },
-  { slug: 'leca', name: 'LECA', segment: 'B2C + B2B', visual: 'clay', overview: 'Lightweight expanded clay aggregate for houseplants, hydroponics, horticulture, drainage, and lightweight fill.', uses: ['Root aeration', 'Moisture management', 'Drainage layer / growing media'], buyers: ['Home plant users', 'Hydroponic growers', 'Landscaping buyers'] },
-  { slug: 'silica-sand', name: 'Silica Sand', segment: 'B2B', visual: 'sand', overview: 'Specification-driven silica sand for filtration media, industrial filtration support, and tender-based procurement.', uses: ['Water filtration', 'Filter-bed support by specification', 'Industrial process support'], buyers: ['Industrial buyers', 'Private companies', 'Government tender buyers'] },
-  { slug: 'pebbles', name: 'White & Brown Pebbles', segment: 'B2B', visual: 'pebbles', overview: 'White and brown pebbles for filtration/drainage support and landscape or infrastructure-oriented finishes.', uses: ['Drainage and filter-bed layers', 'Water filtration support', 'Decorative/infrastructure applications'], buyers: ['Landscaping buyers', 'Municipal/tender buyers', 'Industrial buyers'] },
-  { slug: 'bleaching-earth-soap-adsorbent', name: 'Bleaching Earth & Soap Adsorbent', segment: 'B2B', visual: 'powder', overview: 'Specification-driven adsorbent materials for industrial refining, purification, and soap manufacturing workflows.', uses: ['Color-body reduction depending on process', 'Pigment adsorption', 'Trace impurity adsorption by grade'], buyers: ['Refineries', 'Industrial processors', 'Soap manufacturers'] },
+{slug:'cat-litter',name:'Cat Litter',label:'Home & Retail Supply',visual:'mineral',overview:'Consumer-ready and bulk cat litter options for homes, retail channels, shelters, and distributor programs.',what:'Available options may include silica crystal-style absorbent formats and bentonite/clay-based clumping formats depending on specification.',uses:['Home use','Retail/distributor supply','Private-label programs'],specs:'Absorbency profile, odor-control approach, clumping behavior, dust profile, pack size, MOQ.'},
+{slug:'leca',name:'LECA',label:'Horticulture & Hydroponics',visual:'clay',overview:'Lightweight Expanded Clay Aggregate (LECA): porous expanded clay media for plant systems, drainage, and lightweight fill.',what:'Used in horticulture, hydroponic/semi-hydroponic setups, landscaping, construction support, and water-management layers.',uses:['Hydroponics','Drainage','Landscaping'],specs:'Pellet size range, density, moisture profile, packaging, MOQ.'},
+{slug:'silica-sand',name:'Silica Sand',label:'Specification-Driven Material',visual:'sand',overview:'Industrial high-SiO2 silica sand for water-treatment, filtration, and other specification-driven industrial uses.',what:'Common uses include water filtration, industrial filtration support, well-packing/media support, and refinery-adjacent procurement.',uses:['Water filtration','Industrial procurement','Tender supply'],specs:'Mesh distribution, SiO2/purity band, hardness, cleanliness, packaging, MOQ.'},
+{slug:'pebbles',name:'White & Brown Pebbles',label:'Drainage & Infrastructure',visual:'pebbles',overview:'Sized pebbles for drainage layers, filtration support beds, and aesthetic landscape finishes.',what:'White pebbles favor cleaner visual finishes; brown pebbles suit natural earth-tone environments and infrastructure contexts.',uses:['Drainage layers','Filter-bed support','Landscape finish'],specs:'Size range, hardness, cleanliness, color consistency, packaging, MOQ.'},
+{slug:'bleaching-earth',name:'Bleaching Earth',label:'Oil Processing',visual:'powder',overview:'Adsorbent material used in oil refining and purification workflows based on process and grade.',what:'Can support reduction of color bodies, pigments, soaps/gums, and oxidation by-products depending on dosage and process controls.',uses:['Edible oil processing','Industrial oil refining','Process polishing'],specs:'Grade/activity, dosage window, moisture, packaging, MOQ.'},
+{slug:'soap-adsorbent',name:'Soap Adsorbent',label:'Industrial Filtration',visual:'powder',overview:'Industrial adsorbent for residual soap reduction and polishing workflows in oil/process streams.',what:'Suitability depends on oil type, contaminant profile, process conditions, dosage, and selected adsorbent specification.',uses:['Residual soap reduction','Polishing stage support','Refining workflows'],specs:'Adsorbent type, dosage, process compatibility, packaging, MOQ.'}
 ];

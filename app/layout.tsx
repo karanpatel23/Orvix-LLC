@@ -1,19 +1,3 @@
-import './globals.css';
-import type { Metadata } from 'next';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
-import { company } from '@/lib/data';
-
-export const metadata: Metadata = {
-  metadataBase: new URL(company.siteUrl),
-  title: 'ORVIX LLC | Export & Trading Company for Filtration Media, LECA, Cat Litter & Industrial Adsorbents',
-  description: 'ORVIX LLC is a Raleigh-based export and trading company supplying cat litter, LECA, silica sand, pebbles, bleaching earth, and soap adsorbents across the U.S. and India.',
-  alternates: { canonical: '/' },
-};
-
-export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const org = { '@context': 'https://schema.org', '@type': 'Organization', name: company.name, url: company.siteUrl, email: company.email };
-  return <html lang='en'><body><script type='application/ld+json' dangerouslySetInnerHTML={{ __html: JSON.stringify(org) }} />
-    <Navbar /><main>{children}</main><Footer />
-  </body></html>;
-}
+import './globals.css';import type { Metadata } from 'next';import Navbar from '@/components/Navbar';import Footer from '@/components/Footer';import { company } from '@/lib/data';
+export const metadata: Metadata={metadataBase:new URL(company.siteUrl),title:'ORVIX LLC | Export & Trading Company for Filtration Media, LECA, Cat Litter & Industrial Adsorbents',description:'ORVIX LLC is a Raleigh-based export and trading company supplying cat litter, LECA, silica sand, white pebbles, brown pebbles, bleaching earth, and soap adsorbents across the U.S. and India.',alternates:{canonical:'/'}};
+export default function RootLayout({children}:{children:React.ReactNode}){const org={'@context':'https://schema.org','@type':'Organization',name:company.name,url:company.siteUrl,email:company.email};return <html lang='en'><body><script type='application/ld+json' dangerouslySetInnerHTML={{__html:JSON.stringify(org)}}/><Navbar/><main>{children}</main><Footer/></body></html>}

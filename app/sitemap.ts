@@ -1,0 +1,1 @@
+export default function sitemap(){const base='https://www.orvixllc.com';return['','/about','/products','/products/cat-litter','/products/leca','/products/silica-sand','/products/pebbles','/products/bleaching-earth','/products/soap-adsorbent','/industries','/export-trade','/government-bulk-supply','/contact'].map(p=>({url:base+p,lastModified:new Date()}));}

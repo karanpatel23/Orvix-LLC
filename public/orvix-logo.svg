@@ -1,0 +1,6 @@
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 390 90'>
+  <defs><linearGradient id='g' x1='0' x2='1'><stop stop-color='#d8dde3'/><stop offset='1' stop-color='#c6a56b'/></linearGradient></defs>
+  <circle cx='34' cy='45' r='20' fill='none' stroke='url(#g)' stroke-width='3'/><path d='M18 45h32' stroke='#a8afb8' stroke-width='2'/>
+  <text x='65' y='56' fill='url(#g)' font-family='Inter,Arial,sans-serif' font-size='40' letter-spacing='4'>ORVIX</text>
+  <text x='250' y='56' fill='#a9b0b9' font-family='Inter,Arial,sans-serif' font-size='14' letter-spacing='2'>LLC</text>
+</svg>

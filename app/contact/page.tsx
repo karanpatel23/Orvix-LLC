@@ -1,0 +1,2 @@
+import QuoteForm from '@/components/QuoteForm';import PageShell from '@/components/PageShell';
+export default function ContactPage(){return <PageShell title='Contact / Request Quote' intro='Tell us what you need. We’ll help match the right material, specification, and supply path.'><div className='max-w-3xl'><QuoteForm /></div><p className='subtle text-sm'>Prefer direct email? <a className='text-[#d4b98a]' href='mailto:info@orvixllc.com'>info@orvixllc.com</a></p></PageShell>}

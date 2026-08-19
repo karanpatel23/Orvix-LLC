@@ -1,6 +1,7 @@
 'use client';
 
 import { useId, useRef, useState } from 'react';
+import Button from '@/components/ui/Button';
 import { BUYER_TYPES, PRODUCT_INTERESTS } from '@/lib/form-options';
 
 type Status =
@@ -69,22 +70,18 @@ export default function QuoteForm() {
 
   if (status.kind === 'success') {
     return (
-      <div className="glass rounded-3xl p-6" role="status" aria-live="polite">
-        <h2 className="text-2xl">Request received</h2>
-        <p className="subtle mt-3">{status.message}</p>
-        <button
-          type="button"
-          onClick={() => setStatus({ kind: 'idle' })}
-          className="mt-5 rounded-full border border-white/25 px-5 py-3 text-sm"
-        >
+      <div className="panel p-6" role="status" aria-live="polite">
+        <h2 className="text-h4">Request received</h2>
+        <p className="text-ink-muted mt-3">{status.message}</p>
+        <Button variant="secondary" size="sm" className="mt-5" onClick={() => setStatus({ kind: 'idle' })}>
           Send another request
-        </button>
+        </Button>
       </div>
     );
   }
 
   return (
-    <form ref={formRef} onSubmit={onSubmit} noValidate className="glass rounded-3xl p-6 space-y-4">
+    <form ref={formRef} onSubmit={onSubmit} noValidate className="panel p-6 space-y-4">
       <div className="grid gap-4 sm:grid-cols-2">
         <Field label="Full name" name="fullName" autoComplete="name" error={errors?.fullName} required />
         <Field label="Company name" name="company" autoComplete="organization" error={errors?.company} required />
@@ -98,7 +95,7 @@ export default function QuoteForm() {
 
       <TextArea label="Message" name="message" error={errors?.message} />
 
-      <label className="flex items-start gap-2 text-sm subtle">
+      <label className="flex items-start gap-2 text-sm text-ink-muted">
         <input type="checkbox" name="needSpecs" className="mt-1" />
         <span>I would like specification or documentation details.</span>
       </label>
@@ -109,21 +106,16 @@ export default function QuoteForm() {
         <input id="website" type="text" name="website" tabIndex={-1} autoComplete="off" />
       </div>
 
-      <button
-        type="submit"
-        disabled={submitting}
-        aria-busy={submitting}
-        className="rounded-full bg-[#c6a56b] px-5 py-3 text-black disabled:cursor-not-allowed disabled:opacity-60"
-      >
+      <Button type="submit" size="lg" disabled={submitting} aria-busy={submitting}>
         {submitting ? 'Sending…' : 'Submit Request'}
-      </button>
+      </Button>
 
       <p role="status" aria-live="polite" className="sr-only">
         {submitting ? 'Sending your request.' : ''}
       </p>
 
       {status.kind === 'error' && (
-        <p role="alert" className="text-sm text-[#f0b8a0]">
+        <p role="alert" className="text-sm text-danger">
           {status.message}
         </p>
       )}
@@ -145,7 +137,7 @@ function Field({ label, name, type = 'text', inputMode, autoComplete, required, 
   const errorId = `${name}-error`;
   return (
     <div>
-      <label htmlFor={name} className="mb-2 block text-sm subtle">
+      <label htmlFor={name} className="mb-2 block text-sm text-ink-muted">
         {label}
       </label>
       <input
@@ -157,10 +149,10 @@ function Field({ label, name, type = 'text', inputMode, autoComplete, required, 
         required={required}
         aria-invalid={error ? true : undefined}
         aria-describedby={error ? errorId : undefined}
-        className="w-full rounded-xl border border-white/20 bg-black/20 p-3"
+        className="w-full rounded-field border border-line-strong bg-surface-base/60 p-3"
       />
       {error && (
-        <p id={errorId} className="mt-1 text-xs text-[#f0b8a0]">
+        <p id={errorId} className="mt-1 text-spec text-danger">
           {error}
         </p>
       )}
@@ -172,7 +164,7 @@ function TextArea({ label, name, error }: { label: string; name: string; error?:
   const errorId = `${name}-error`;
   return (
     <div>
-      <label htmlFor={name} className="mb-2 block text-sm subtle">
+      <label htmlFor={name} className="mb-2 block text-sm text-ink-muted">
         {label}
       </label>
       <textarea
@@ -182,10 +174,10 @@ function TextArea({ label, name, error }: { label: string; name: string; error?:
         aria-invalid={error ? true : undefined}
         aria-describedby={error ? errorId : undefined}
         placeholder="Product, specification, timeline, and destination details"
-        className="h-28 w-full rounded-xl border border-white/20 bg-black/20 p-3"
+        className="h-28 w-full rounded-field border border-line-strong bg-surface-base/60 p-3"
       />
       {error && (
-        <p id={errorId} className="mt-1 text-xs text-[#f0b8a0]">
+        <p id={errorId} className="mt-1 text-spec text-danger">
           {error}
         </p>
       )}
@@ -209,7 +201,7 @@ function Select({
   const id = name || fallbackId;
   return (
     <div>
-      <label htmlFor={id} className="mb-2 block text-sm subtle">
+      <label htmlFor={id} className="mb-2 block text-sm text-ink-muted">
         {label}
       </label>
       <select
@@ -218,7 +210,7 @@ function Select({
         defaultValue={options[0]}
         aria-invalid={error ? true : undefined}
         aria-describedby={error ? errorId : undefined}
-        className="w-full rounded-xl border border-white/20 bg-black/20 p-3"
+        className="w-full rounded-field border border-line-strong bg-surface-base/60 p-3"
       >
         {options.map((option) => (
           <option key={option} value={option}>
@@ -227,7 +219,7 @@ function Select({
         ))}
       </select>
       {error && (
-        <p id={errorId} className="mt-1 text-xs text-[#f0b8a0]">
+        <p id={errorId} className="mt-1 text-spec text-danger">
           {error}
         </p>
       )}

@@ -1,7 +1,18 @@
 export const company = { name: 'ORVIX LLC', location: 'Raleigh, North Carolina, USA', email: 'info@orvixllc.com', markets: ['United States', 'India'], siteUrl: 'https://www.orvixllc.com' };
 export const navLinks = [{ label:'Home',href:'/'},{label:'About',href:'/about'},{label:'Products',href:'/products'},{label:'Industries',href:'/industries'},{label:'Export & Trade',href:'/export-trade'},{label:'Government & Bulk Supply',href:'/government-bulk-supply'},{label:'Contact',href:'/contact'}];
 export const legalDisclaimer='Product information on this website is provided for general commercial and educational purposes only. Final product suitability depends on buyer specifications, intended use, applicable standards, destination-market requirements, and supporting documentation. ORVIX LLC does not provide legal, customs, tax, veterinary, medical, or regulatory advice.';
-export const products = [
+export interface Product {
+  slug: string;
+  name: string;
+  label: string;
+  visual: string;
+  overview: string;
+  what: string;
+  uses: string[];
+  specs: string;
+}
+
+export const products: Product[] = [
 {slug:'cat-litter',name:'Cat Litter',label:'Home & Retail Supply',visual:'mineral',overview:'Consumer-ready and bulk cat litter options for homes, retail channels, shelters, and distributor programs.',what:'Available options may include silica crystal-style absorbent formats and bentonite/clay-based clumping formats depending on specification.',uses:['Home use','Retail/distributor supply','Private-label programs'],specs:'Absorbency profile, odor-control approach, clumping behavior, dust profile, pack size, MOQ.'},
 {slug:'leca',name:'LECA',label:'Horticulture & Hydroponics',visual:'clay',overview:'Lightweight Expanded Clay Aggregate (LECA): porous expanded clay media for plant systems, drainage, and lightweight fill.',what:'Used in horticulture, hydroponic/semi-hydroponic setups, landscaping, construction support, and water-management layers.',uses:['Hydroponics','Drainage','Landscaping'],specs:'Pellet size range, density, moisture profile, packaging, MOQ.'},
 {slug:'silica-sand',name:'Silica Sand',label:'Specification-Driven Material',visual:'sand',overview:'Industrial high-SiO2 silica sand for water-treatment, filtration, and other specification-driven industrial uses.',what:'Common uses include water filtration, industrial filtration support, well-packing/media support, and refinery-adjacent procurement.',uses:['Water filtration','Industrial procurement','Tender supply'],specs:'Mesh distribution, SiO2/purity band, hardness, cleanliness, packaging, MOQ.'},

@@ -1,12 +1,153 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-:root { color-scheme: dark; --nav-h: 84px; }
-body { @apply bg-[#0b0c0f] text-[#f4f3ef] antialiased; }
-.containerX { @apply mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-12; }
-.glass { @apply border border-white/10 bg-white/[0.04] backdrop-blur-xl; }
-.section-pad { @apply py-16 sm:py-24; }
-.page-offset { padding-top: calc(var(--nav-h) + 2.2rem); }
-.headline { @apply text-4xl sm:text-6xl lg:text-7xl font-semibold tracking-tight leading-[1.05]; }
-.subtle { @apply text-[#c8c8c4]/80; }
-.bg-noise { background-image: radial-gradient(circle at 20% 20%, rgba(198,165,107,.14), transparent 35%), radial-gradient(circle at 80% 0%, rgba(214,214,224,.12), transparent 32%), linear-gradient(180deg, #0b0c0f 0%, #111319 48%, #0d0f13 100%); }
+
+@layer base {
+  :root {
+    color-scheme: dark;
+    --nav-h: 72px;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-surface-base text-ink antialiased;
+    font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+    font-synthesis-weight: none;
+    text-rendering: optimizeLegibility;
+  }
+
+  /**
+   * Authored focus ring. The old stylesheet defined none at all, leaving the
+   * browser default, which is close to invisible on a #0b0c0f background.
+   * Accent-on-base measures 8.38:1, well past the 3:1 the ring needs.
+   */
+  :focus-visible {
+    @apply outline-none ring-2 ring-accent ring-offset-2 ring-offset-surface-base rounded-[3px];
+  }
+
+  /* Numbers line up in spec tables. */
+  .font-mono,
+  [class*='font-mono'] {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: 'tnum' 1;
+  }
+
+  ::selection {
+    @apply bg-accent text-surface-base;
+  }
+}
+
+@layer components {
+  .containerX {
+    @apply mx-auto w-full max-w-[1400px] px-gutter sm:px-8 lg:px-12;
+  }
+
+  /**
+   * Section rhythm. `section-pad` is the default; `section-pad-lg` marks a
+   * deliberate breath. Related things tight, unrelated things far apart.
+   */
+  .section-pad {
+    @apply py-[4.5rem] md:py-section;
+  }
+
+  .section-pad-lg {
+    @apply py-section md:py-section-lg;
+  }
+
+  .page-offset {
+    padding-top: calc(var(--nav-h) + 3rem);
+  }
+
+  /**
+   * Surfaces.
+   *
+   * `.panel` is the default card: a raised surface with a real border. It
+   * replaces `.glass`, which applied backdrop-blur to 17 elements including bare
+   * paragraphs and list items.
+   *
+   * `.panel-glass` keeps the frosted treatment for the one place it is
+   * motivated: chrome that floats over scrolling content.
+   */
+  .panel {
+    @apply rounded-card border border-line-subtle bg-surface-raised;
+  }
+
+  .panel-interactive {
+    @apply rounded-card border border-line-strong bg-surface-raised transition-colors duration-200 ease-out;
+  }
+
+  .panel-glass {
+    @apply border border-line-subtle bg-surface-raised/80 backdrop-blur-xl;
+  }
+
+  @media (prefers-reduced-transparency: reduce) {
+    .panel-glass {
+      @apply bg-surface-raised backdrop-blur-none;
+    }
+  }
+
+  /* Uppercase micro-label. Rationed: see PLAN.md, max one per three sections. */
+  .label {
+    @apply font-mono text-label uppercase text-accent-soft;
+  }
+
+  /* Specification data. Monospaced because the numbers are the product. */
+  .spec {
+    @apply font-mono text-spec text-ink-muted;
+  }
+
+  .prose-measure {
+    @apply max-w-measure text-lead text-ink-muted;
+  }
+
+  .sr-only-focusable {
+    @apply sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100]
+           focus:rounded-field focus:bg-surface-overlay focus:px-4 focus:py-3 focus:text-ink;
+  }
+}
+
+@layer utilities {
+  /**
+   * Signature detail, used once: a fine diagonal screen over the hero surface
+   * only. It reads as sieved material, which is what this company moves. It is a
+   * fixed, pointer-events-none layer so it never repaints on scroll.
+   */
+  .surface-sieve {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .surface-sieve::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-image: repeating-linear-gradient(
+      -38deg,
+      rgb(198 165 107 / 0.05) 0px,
+      rgb(198 165 107 / 0.05) 1px,
+      transparent 1px,
+      transparent 7px
+    );
+    mask-image: radial-gradient(ellipse 80% 60% at 15% 0%, #000 0%, transparent 70%);
+  }
+}
+
+/**
+ * Reduced motion. Every transition and animation collapses; nothing in the
+ * system depends on movement to convey information.
+ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

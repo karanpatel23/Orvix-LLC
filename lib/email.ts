@@ -46,7 +46,7 @@ export function renderQuoteEmail(quote: QuoteInput): { subject: string; text: st
   ].join('\n');
 
   return {
-    subject: `Quote request — ${quote.productInterest} — ${quote.company}`,
+    subject: `Quote request: ${quote.productInterest} - ${quote.company}`,
     text,
   };
 }

@@ -102,7 +102,7 @@ export async function POST(req: Request) {
         {
           ok: true,
           message:
-            'Thank you. Your request has been received — ORVIX LLC will review your product interest and respond using the contact details provided.',
+            'Thank you. Your request has been received. ORVIX LLC will review your product interest and respond using the contact details provided.',
           requestId,
         },
         200
@@ -117,7 +117,7 @@ export async function POST(req: Request) {
       return json(
         {
           ok: false,
-          message: `We could not submit your request automatically. Please email ${DIRECT_EMAIL} directly — your details have not been sent.`,
+          message: `We could not submit your request automatically. Please email ${DIRECT_EMAIL} directly. Your details have not been sent.`,
           requestId,
         },
         503

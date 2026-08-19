@@ -62,6 +62,27 @@
   }
 
   /**
+   * Hero spacing.
+   *
+   * Height comes from padding and content, never from a viewport fraction. The
+   * hero used to be `min-h-[82vh]` with `justify-center`, which pinned it to 738px
+   * at a 900px viewport and left 178px of dead space below the CTAs. Padding also
+   * degrades sensibly on short viewports, where 82vh would still have reserved
+   * most of the screen for whitespace.
+   */
+  .hero-pad {
+    padding-top: calc(var(--nav-h) + 3.5rem);
+    padding-bottom: 4rem;
+  }
+
+  @media (min-width: 768px) {
+    .hero-pad {
+      padding-top: calc(var(--nav-h) + 5.5rem);
+      padding-bottom: 7rem;
+    }
+  }
+
+  /**
    * Surfaces.
    *
    * `.panel` is the default card: a raised surface with a real border. It

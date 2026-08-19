@@ -33,13 +33,19 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
   return (
     <html lang="en" className={`${archivo.variable} ${plexMono.variable}`}>
-      <body>
+      {/*
+        Flex column with a flex-1 main: removing min-h-[82vh] means a short page
+        is genuinely short, and without this the footer would ride up the screen
+        on tall viewports. min-h-[100dvh] rather than 100vh so mobile browser
+        chrome does not cause a jump.
+      */}
+      <body className="flex min-h-[100dvh] flex-col">
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(org) }} />
         <a href="#main" className="sr-only-focusable">
           Skip to content
         </a>
         <Navbar />
-        <main id="main">{children}</main>
+        <main id="main" className="flex-1">{children}</main>
         <Footer />
       </body>
     </html>

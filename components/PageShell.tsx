@@ -10,7 +10,7 @@ export default function PageShell({
   children: ReactNode;
 }) {
   return (
-    <section className="containerX section-pad page-offset min-h-[82vh]">
+    <section className="containerX section-pad page-offset">
       <header className="max-w-measure">
         <h1 className="text-h1">{title}</h1>
         {intro && <p className="prose-measure mt-block">{intro}</p>}

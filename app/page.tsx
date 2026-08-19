@@ -23,7 +23,7 @@ const pathways = [
 export default function Home() {
   return (
     <div className="surface-sieve">
-      <section className="containerX section-pad page-offset flex min-h-[82vh] flex-col justify-center">
+      <section className="containerX hero-pad">
         <Reveal mode="enter" y={12}>
           <p className="label">Raleigh, North Carolina · U.S. + India Focus</p>
         </Reveal>

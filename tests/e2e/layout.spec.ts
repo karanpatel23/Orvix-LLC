@@ -98,3 +98,45 @@ test('the footer stays at the bottom on a short page', async ({ page }) => {
   // viewport; the flex-column body prevents that.
   expect(gap, `footer floats ${gap}px above the viewport bottom`).toBeLessThanOrEqual(2);
 });
+
+/**
+ * Guards a bug found while rebuilding the homepage sections: framer-motion's
+ * `initial={{ opacity: 0 }}` is serialised into the server-rendered HTML, so the
+ * hero headline and all six product cards shipped as `style="opacity:0"` and were
+ * invisible whenever JavaScript did not run. A CSS `animation-timeline: view()`
+ * replacement had the same failure in a different form, because scroll-linked
+ * animations reverse when you scroll away.
+ */
+test.describe('content is never hidden by a reveal', () => {
+  test('no server-rendered element ships with opacity:0', async ({ request }) => {
+    for (const route of ['/', '/about', '/products']) {
+      const html = await (await request.get(route)).text();
+      expect(html, `${route} ships hidden inline styles`).not.toContain('opacity:0');
+    }
+  });
+
+  test('nothing readable is transparent at any scroll position', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    for (const route of ['/', '/about', '/products']) {
+      await page.goto(route, { waitUntil: 'networkidle' });
+      for (const fraction of [0, 0.5, 1, 0]) {
+        await page.evaluate(
+          (f) => window.scrollTo(0, document.body.scrollHeight * f),
+          fraction
+        );
+        await page.waitForTimeout(120);
+        const hidden = await page.evaluate(() =>
+          Array.from(document.querySelectorAll<HTMLElement>('main *'))
+            .filter(
+              (el) =>
+                el.children.length === 0 &&
+                el.textContent?.trim() &&
+                parseFloat(getComputedStyle(el).opacity) < 0.99
+            )
+            .map((el) => el.textContent!.trim().slice(0, 30))
+        );
+        expect(hidden, `${route} at scroll ${fraction}`).toEqual([]);
+      }
+    }
+  });
+});

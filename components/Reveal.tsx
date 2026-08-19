@@ -1,22 +1,35 @@
-'use client';
-
-import { motion, useReducedMotion } from 'framer-motion';
-import type { ReactNode } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 
 /**
- * Motion island.
+ * Entrance and scroll reveals.
  *
- * app/page.tsx was `'use client'` in its entirety purely so it could call
- * framer-motion for two entrance animations and a stagger. That shipped the
- * whole homepage as a Client Component, cost the RSC boundary, and meant the
- * page could not export metadata (Client Components cannot), so the homepage was
- * the only route without its own canonical.
+ * CORRECTNESS NOTE, not a style preference. The previous implementation used
+ * framer-motion's `initial={{ opacity: 0 }}`, which is serialised into the
+ * server-rendered HTML as `style="opacity:0"`. If JavaScript failed, was blocked,
+ * or simply had not hydrated yet, the hero headline and all six product cards
+ * were invisible: present in the DOM, unreadable on screen. The original
+ * pre-refactor page had the same flaw.
  *
- * Isolating motion in a leaf lets the page be a Server Component again while the
- * animation behaviour stays identical.
+ * This version inverts the default. The element is visible in its base state and
+ * the animation only ever moves it *from* hidden *to* visible. Every failure mode
+ * now resolves to visible content:
  *
- * `mode="enter"` animates on mount, for above-the-fold content.
- * `mode="scroll"` animates once on entering the viewport.
+ *   - reduced motion             -> media query never applies, content visible
+ *   - no scroll-timeline support -> @supports never applies, content visible
+ *   - CSS disabled entirely      -> content visible
+ *   - JS disabled                -> irrelevant, this is a Server Component
+ *
+ * It also drops framer-motion from the homepage, which no longer needs a client
+ * boundary for its entrance animations.
+ *
+ * SCROLL MODE IS CURRENTLY A PASSTHROUGH. A CSS `animation-timeline: view()`
+ * reveal was tried and removed: scroll-linked animations are reversible, so
+ * scrolling back up re-hid the product cards. The brief asks for reveals that
+ * trigger once, which a scroll-linked timeline cannot express. Doing it properly
+ * needs an IntersectionObserver that adds a class once and never removes it, plus
+ * a pre-paint marker so there is no flash. That is motion architecture and it
+ * belongs in Phase 5, not in a layout commit. Until then, scroll content renders
+ * plainly and legibly, which is the correct failure direction.
  */
 export default function Reveal({
   children,
@@ -31,28 +44,18 @@ export default function Reveal({
   y?: number;
   className?: string;
 }) {
-  const reduce = useReducedMotion();
-  const from = reduce ? false : { opacity: 0, y };
-  const to = { opacity: 1, y: 0 };
-  const transition = { duration: 0.5, delay, ease: [0.16, 1, 0.3, 1] as const };
+  const style = {
+    '--reveal-y': `${y}px`,
+    '--reveal-delay': `${delay}s`,
+  } as CSSProperties;
 
-  if (mode === 'enter') {
-    return (
-      <motion.div initial={from} animate={to} transition={transition} className={className}>
-        {children}
-      </motion.div>
-    );
+  if (mode === 'scroll') {
+    return className ? <div className={className}>{children}</div> : <>{children}</>;
   }
 
   return (
-    <motion.div
-      initial={from}
-      whileInView={to}
-      viewport={{ once: true, amount: 0.25 }}
-      transition={transition}
-      className={className}
-    >
+    <div className={['reveal-enter', className].filter(Boolean).join(' ')} style={style}>
       {children}
-    </motion.div>
+    </div>
   );
 }

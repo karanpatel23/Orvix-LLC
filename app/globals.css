@@ -159,6 +159,27 @@
 }
 
 /**
+ * Reveals.
+ *
+ * The base state is visible. Animations only move an element from hidden to
+ * visible, never the reverse, so every unsupported or disabled path resolves to
+ * readable content rather than a blank page. See components/Reveal.tsx.
+ */
+@keyframes reveal-in {
+  from {
+    opacity: 0;
+    transform: translateY(var(--reveal-y, 18px));
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .reveal-enter {
+    animation: reveal-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-delay: var(--reveal-delay, 0s);
+  }
+}
+
+/**
  * Reduced motion. Every transition and animation collapses; nothing in the
  * system depends on movement to convey information.
  */

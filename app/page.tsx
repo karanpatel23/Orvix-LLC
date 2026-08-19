@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import Button from '@/components/ui/Button';
 import ProductCard from '@/components/ProductCard';
 import Reveal from '@/components/Reveal';
@@ -14,10 +15,34 @@ export const metadata = pageMeta({
   path: '/',
 });
 
-const pathways = [
-  'For Home & Plant Users',
-  'For Industrial Buyers',
-  'For Government & Procurement Teams',
+/**
+ * Buyer routes into the catalog.
+ *
+ * Both the audiences and the buyer descriptions are lifted from the existing
+ * /industries mapping rather than written fresh, so this section makes no claim
+ * the site was not already making. The old block was three equal cards labelled "Pathway 1/2/3", which
+ * is the banned generic-step-label pattern: the number carried the emphasis and
+ * the audience carried none.
+ */
+const routes = [
+  {
+    audience: 'Home & plant users',
+    detail: 'Plant users, nurseries, landscapers, retailers, distributors, and shelters.',
+    materials: ['Cat Litter', 'LECA'],
+    href: '/products',
+  },
+  {
+    audience: 'Industrial buyers',
+    detail: 'Refiners, oil processors, and manufacturers.',
+    materials: ['Silica Sand', 'Bleaching Earth', 'Soap Adsorbent'],
+    href: '/industries',
+  },
+  {
+    audience: 'Government & procurement teams',
+    detail: 'Procurement teams, public-sector buyers, and tender evaluators.',
+    materials: ['Silica Sand', 'White & Brown Pebbles'],
+    href: '/government-bulk-supply',
+  },
 ];
 
 export default function Home() {
@@ -61,16 +86,47 @@ export default function Home() {
         </ul>
       </section>
 
+      {/*
+        A numbered editorial sequence rather than a third card grid. The section
+        above is already a card grid, and repeating the layout family is what makes
+        stacked sections read as generated.
+      */}
       <section className="containerX section-pad">
-        <h2 className="sr-only">Buyer pathways</h2>
-        <ul className="grid gap-block lg:grid-cols-3">
-          {pathways.map((pathway, index) => (
-            <li key={pathway} className="panel p-block">
-              <p className="label">Pathway {index + 1}</p>
-              <h3 className="mt-2 text-h4">{pathway}</h3>
+        <h2 className="text-h2 font-semibold">Who we supply.</h2>
+
+        <ol className="mt-group divide-y divide-line-subtle border-t border-line-subtle">
+          {routes.map((route, index) => (
+            <li key={route.audience}>
+              <Link
+                href={route.href}
+                className="group grid grid-cols-[auto_1fr] items-baseline gap-x-6 gap-y-3 py-block
+                           transition-colors md:grid-cols-[4rem_minmax(0,22rem)_1fr] md:gap-x-10"
+              >
+                <span aria-hidden="true" className="font-mono text-h3 leading-none text-accent-soft">
+                  {String(index + 1).padStart(2, '0')}
+                </span>
+
+                <span className="col-start-2">
+                  <span className="block text-h4 transition-colors group-hover:text-accent-soft">
+                    {route.audience}
+                  </span>
+                  <span className="mt-2 block text-sm text-ink-muted md:hidden">{route.detail}</span>
+                </span>
+
+                <span className="col-span-2 col-start-1 md:col-span-1 md:col-start-3">
+                  <span className="hidden text-sm text-ink-muted md:block">{route.detail}</span>
+                  <span className="mt-0 block md:mt-3">
+                    {route.materials.map((material) => (
+                      <span key={material} className="spec mr-4 inline-block text-ink-faint">
+                        {material}
+                      </span>
+                    ))}
+                  </span>
+                </span>
+              </Link>
             </li>
           ))}
-        </ul>
+        </ol>
       </section>
     </div>
   );

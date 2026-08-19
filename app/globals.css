@@ -50,7 +50,7 @@
    * deliberate breath. Related things tight, unrelated things far apart.
    */
   .section-pad {
-    @apply py-[4.5rem] md:py-section;
+    @apply py-section-sm md:py-section;
   }
 
   .section-pad-lg {

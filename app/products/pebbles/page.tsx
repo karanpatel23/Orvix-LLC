@@ -1,2 +1,12 @@
 import Button from '@/components/ui/Button';import Disclaimer from '@/components/Disclaimer';
+
+import { pageMeta } from '@/lib/seo';
+
+export const metadata = pageMeta({
+  title: 'White & Brown Pebbles',
+  description:
+    'Sized pebbles for drainage layers, filter-bed support, and landscape finishes. Size range, hardness, cleanliness, and color consistency to specification.',
+  path: '/products/pebbles',
+});
+
 export default function Page(){return <section className='containerX section-pad pt-32 space-y-6'><h1 className='text-h1'>White & Brown Pebbles</h1><div className='grid md:grid-cols-2 gap-4'><div className='panel p-4'><h2 className='text-h4'>White Pebbles</h2><p className='text-ink-muted'>Clean decorative look with filtration/drainage support depending on size and specification.</p></div><div className='panel p-4'><h2 className='text-h4'>Brown Pebbles</h2><p className='text-ink-muted'>Natural earth-tone finish with drainage/filter-bed support depending on size and application.</p></div></div><p className='text-ink-muted'>Final usage depends on size, hardness, cleanliness, and buyer specifications.</p><div className='flex gap-3'><Button href='/contact'>Request Quote</Button><Button href='/contact' variant="secondary">Request Specification</Button></div><Disclaimer/></section>}

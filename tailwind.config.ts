@@ -47,7 +47,11 @@ const config: Config = {
           subtle: 'rgb(255 255 255 / 0.14)',
           hairline: 'rgb(255 255 255 / 0.08)',
         },
-        danger: '#f0b8a0',
+        // Error only. Deliberately at hue 0 rather than the original #f0b8a0
+        // (hue 18), which sat just 20 degrees from the brand gold at hue 38 and
+        // read as another warm neutral rather than as a fault. 38 degrees of
+        // separation, 7.07:1 on surface-base.
+        danger: '#f87171',
       },
 
       fontFamily: {
@@ -56,15 +60,9 @@ const config: Config = {
       },
 
       /**
-       * Type scale with real contrast.
-       *
-       * The old scale ran 14px body to 48px heading with nothing at 18px, and
-       * `.headline`'s responsive steps were overridden by `!text-5xl` on 6 of 7
-       * pages. Body moves up to 16/18px, display goes properly large, and every
-       * size carries its own line-height and tracking.
-       */
-      /**
-       * Display sizes are fluid via clamp() rather than responsive variants.
+       * Type scale with real contrast. Body moves up from 14px to 16/18px, every
+       * size carries its own line-height and tracking, and display sizes are
+       * fluid via clamp() rather than responsive variants.
        * The old `.headline` declared `text-4xl sm:text-6xl lg:text-7xl` and then
        * had it overridden by `!text-5xl` on 6 of 7 pages, so interior headings
        * were a flat 48px at every breakpoint. Fluid sizing means a heading
@@ -94,21 +92,26 @@ const config: Config = {
         'element': '0.75rem',
         'block': '1.75rem',
         'group': '3.5rem',
+        'section-sm': '4.5rem',
         'section': '6rem',
         'section-lg': '9rem',
       },
 
       /**
-       * One radius language. The old code mixed 5 radii at random
-       * (full / 3xl / 2xl / xl / md).
+       * One radius language, three values, one rule:
+       *   full  -> interactive controls (buttons, the nav shell)
+       *   card  -> surfaces (.panel, product visuals)
+       *   field -> inputs and menu rows
+       * Nothing else. The old code mixed 5 radii (full/3xl/2xl/xl/md) with no
+       * rule about which applied where.
        *
-       * The rule: interactive controls are pill, surfaces are `card`, inputs are
-       * `field`. Nothing else.
+       * A `panel: 1.5rem` token was declared here initially and never referenced
+       * once `.panel` absorbed it, so it has been removed rather than left as a
+       * fourth option someone could reach for.
        */
       borderRadius: {
         field: '0.625rem',
         card: '1rem',
-        panel: '1.5rem',
       },
 
       /**

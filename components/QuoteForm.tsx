@@ -114,12 +114,37 @@ export default function QuoteForm() {
         {submitting ? 'Sending your request.' : ''}
       </p>
 
-      {status.kind === 'error' && (
-        <p role="alert" className="text-sm text-danger">
-          {status.message}
-        </p>
-      )}
+      {/*
+        Polite rather than assertive: the submit button already reflects state,
+        so this should not interrupt whatever the user is reading. The region is
+        always present so the announcement fires on content change.
+      */}
+      <div aria-live="polite" data-form-error className="min-h-0">
+        {status.kind === 'error' && (
+          <p className="flex gap-1.5 text-sm text-danger">
+            <span className="font-semibold">Error:</span>
+            <span>{status.message}</span>
+          </p>
+        )}
+      </div>
     </form>
+  );
+}
+
+/**
+ * Field-level error.
+ *
+ * Colour is never the only signal: the "Error:" prefix carries the meaning for
+ * anyone who cannot distinguish the red, and the glyph-free text form means no
+ * icon dependency. Wired to its input by id via aria-describedby, with
+ * aria-invalid set on the control itself.
+ */
+function FieldError({ id, children }: { id: string; children: React.ReactNode }) {
+  return (
+    <p id={id} className="mt-1 flex gap-1 text-spec text-danger">
+      <span className="font-semibold">Error:</span>
+      <span>{children}</span>
+    </p>
   );
 }
 
@@ -151,11 +176,7 @@ function Field({ label, name, type = 'text', inputMode, autoComplete, required, 
         aria-describedby={error ? errorId : undefined}
         className="w-full rounded-field border border-line-strong bg-surface-base/60 p-3"
       />
-      {error && (
-        <p id={errorId} className="mt-1 text-spec text-danger">
-          {error}
-        </p>
-      )}
+      {error && <FieldError id={errorId}>{error}</FieldError>}
     </div>
   );
 }
@@ -176,11 +197,7 @@ function TextArea({ label, name, error }: { label: string; name: string; error?:
         placeholder="Product, specification, timeline, and destination details"
         className="h-28 w-full rounded-field border border-line-strong bg-surface-base/60 p-3"
       />
-      {error && (
-        <p id={errorId} className="mt-1 text-spec text-danger">
-          {error}
-        </p>
-      )}
+      {error && <FieldError id={errorId}>{error}</FieldError>}
     </div>
   );
 }
@@ -218,11 +235,7 @@ function Select({
           </option>
         ))}
       </select>
-      {error && (
-        <p id={errorId} className="mt-1 text-spec text-danger">
-          {error}
-        </p>
-      )}
+      {error && <FieldError id={errorId}>{error}</FieldError>}
     </div>
   );
 }

@@ -51,9 +51,12 @@ test.describe('quote request flow', () => {
     await fillForm(page);
     await page.getByRole('button', { name: /submit request/i }).click();
 
-    // Scope to the form: Next injects its own role="alert" route announcer.
-    const alert = page.locator('form').getByRole('alert');
+    // The form-level error lives in a polite live region, not role="alert",
+    // so that it does not interrupt whatever the user is reading.
+    const alert = page.locator('form [data-form-error]');
     await expect(alert).toBeVisible();
+    // Colour must not be the only error signal.
+    await expect(alert).toContainText('Error:');
     await expect(alert).toContainText('info@orvixllc.com');
     // Critically: it must NOT claim success.
     await expect(alert).not.toContainText(/thank you/i);
@@ -66,7 +69,7 @@ test.describe('quote request flow', () => {
     await fillForm(page);
     await page.getByRole('button', { name: /submit request/i }).click();
 
-    await expect(page.locator('form').getByRole('alert')).toBeVisible({ timeout: 15_000 });
+    await expect(page.locator('form [data-form-error]')).toContainText('Error:', { timeout: 15_000 });
     await expect(page.getByRole('button', { name: /submit request/i })).toBeEnabled();
   });
 

@@ -1,2 +1,12 @@
 import PageShell from '@/components/PageShell';
+
+import { pageMeta } from '@/lib/seo';
+
+export const metadata = pageMeta({
+  title: 'About ORVIX LLC',
+  description:
+    'Raleigh-based export and trading company supplying filtration media, absorbents, lightweight aggregates, and consumer-ready mineral products to United States and India markets.',
+  path: '/about',
+});
+
 export default function Page(){return <PageShell title='About ORVIX' intro='ORVIX LLC is based in Raleigh, North Carolina, serving United States and India markets first with a long-term global expansion vision.'><div className='grid md:grid-cols-3 gap-4'><div className='panel p-5'><h2 className='text-h4'>Mission</h2><p className='text-ink-muted mt-2'>To make essential performance materials easier to source, understand, and trade across borders.</p></div><div className='panel p-5'><h2 className='text-h4'>Vision</h2><p className='text-ink-muted mt-2'>To become a trusted U.S.-based trading partner for filtration media, absorbents, lightweight aggregates, and consumer-ready mineral products across global markets.</p></div><div className='panel p-5'><h2 className='text-h4'>Values</h2><p className='text-ink-muted mt-2'>Trust, product clarity, responsible communication, specification-first sourcing, and long-term buyer relationships.</p></div></div></PageShell>}

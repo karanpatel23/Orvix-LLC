@@ -1,5 +1,6 @@
-import Button from '@/components/ui/Button';import Disclaimer from '@/components/Disclaimer';
-
+import PageShell from '@/components/PageShell';
+import ProductCTA from '@/components/ProductCTA';
+import Disclaimer from '@/components/Disclaimer';
 import { pageMeta } from '@/lib/seo';
 
 export const metadata = pageMeta({
@@ -9,4 +10,38 @@ export const metadata = pageMeta({
   path: '/products/pebbles',
 });
 
-export default function Page(){return <section className='containerX section-pad pt-32 space-y-6'><h1 className='text-h1'>White & Brown Pebbles</h1><div className='grid md:grid-cols-2 gap-4'><div className='panel p-4'><h2 className='text-h4'>White Pebbles</h2><p className='text-ink-muted'>Clean decorative look with filtration/drainage support depending on size and specification.</p></div><div className='panel p-4'><h2 className='text-h4'>Brown Pebbles</h2><p className='text-ink-muted'>Natural earth-tone finish with drainage/filter-bed support depending on size and application.</p></div></div><p className='text-ink-muted'>Final usage depends on size, hardness, cleanliness, and buyer specifications.</p><div className='flex gap-3'><Button href='/contact'>Request Quote</Button><Button href='/contact' variant="secondary">Request Specification</Button></div><Disclaimer/></section>}
+const variants = [
+  {
+    title: 'White Pebbles',
+    body: 'Clean decorative look with filtration and drainage support depending on size and specification.',
+  },
+  {
+    title: 'Brown Pebbles',
+    body: 'Natural earth-tone finish with drainage and filter-bed support depending on size and application.',
+  },
+];
+
+// TODO(karan): specs. Needs real figures per variant: size range, hardness,
+// cleanliness, colour consistency, packaging, MOQ.
+export default function Page() {
+  return (
+    <PageShell
+      title="White & Brown Pebbles"
+      intro="Sized pebbles for drainage layers, filtration support beds, and aesthetic landscape finishes."
+    >
+      <ul className="grid gap-block md:grid-cols-2">
+        {variants.map((variant) => (
+          <li key={variant.title} className="panel p-block">
+            <h2 className="text-h4">{variant.title}</h2>
+            <p className="mt-2 text-ink-muted">{variant.body}</p>
+          </li>
+        ))}
+      </ul>
+      <p className="prose-measure">
+        Final usage depends on size, hardness, cleanliness, and buyer specifications.
+      </p>
+      <ProductCTA />
+      <Disclaimer />
+    </PageShell>
+  );
+}

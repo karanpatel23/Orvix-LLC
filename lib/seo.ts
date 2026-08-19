@@ -17,27 +17,36 @@ export function pageMeta({
   title,
   description,
   path,
+  absoluteTitle = false,
 }: {
   title: string;
   description: string;
   path: string;
+  /**
+   * The root layout's `title.template` appends "| ORVIX LLC" to child segments,
+   * but it does not apply to the root page itself. The homepage sets this so it
+   * carries the brand name rather than shipping a bare phrase as its title.
+   */
+  absoluteTitle?: boolean;
 }): Metadata {
   const url = new URL(path, company.siteUrl).toString();
+  // An absolute title already carries the brand, so do not append it again.
+  const socialTitle = absoluteTitle ? title : `${title} | ${company.name}`;
   return {
-    title,
+    title: absoluteTitle ? { absolute: title } : title,
     description,
     alternates: { canonical: path },
     openGraph: {
       type: 'website',
       siteName: company.name,
-      title: `${title} | ${company.name}`,
+      title: socialTitle,
       description,
       url,
       locale: 'en_US',
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${title} | ${company.name}`,
+      title: socialTitle,
       description,
     },
   };

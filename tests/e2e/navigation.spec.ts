@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test';
 test('mobile nav opens and exposes the primary links', async ({ page }) => {
   await page.setViewportSize({ width: 375, height: 812 });
   await page.goto('/');
-  await page.getByRole('button', { name: /toggle menu/i }).click();
+  await page.getByRole('button', { name: /open menu/i }).click();
   // Scope to the banner: /products is also linked from the hero and the footer.
   await expect(page.getByRole('banner').getByRole('link', { name: 'Products', exact: true })).toBeVisible();
 });

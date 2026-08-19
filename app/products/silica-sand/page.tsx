@@ -1,5 +1,6 @@
-import Button from '@/components/ui/Button';import Disclaimer from '@/components/Disclaimer';
-
+import PageShell from '@/components/PageShell';
+import ProductCTA from '@/components/ProductCTA';
+import Disclaimer from '@/components/Disclaimer';
 import { pageMeta } from '@/lib/seo';
 
 export const metadata = pageMeta({
@@ -9,4 +10,25 @@ export const metadata = pageMeta({
   path: '/products/silica-sand',
 });
 
-export default function Page(){return <section className='containerX section-pad pt-32 space-y-6'><h1 className='text-h1'>Silica Sand</h1><p className='text-ink-muted max-w-3xl'>Specification-driven silica sand for water filtration, industrial filtration, well-packing/filter media, and procurement-led projects.</p><p className='panel p-4'>Silica sand suitability depends on grade, particle size, purity, mesh range, and the buyer’s intended use.</p><details className='panel p-4'><summary>Grade & mesh placeholders</summary><p className='text-ink-muted mt-2'>Grade, mesh range, purity band, packaging options, MOQ, origin, and technical documentation on request.</p></details><div className='flex gap-3'><Button href='/contact'>Request Grade & Mesh Details</Button><Button href='/contact' variant="secondary">Request Quote</Button></div><Disclaimer/></section>}
+// TODO(karan): specs. The "Grade & mesh placeholders" disclosure was removed from
+// this page. This is the product where real numbers matter most: buyers search by
+// mesh range and SiO2 purity band. Needs grade, mesh distribution, purity band,
+// packaging options, MOQ, origin.
+export default function Page() {
+  return (
+    <PageShell
+      title="Silica Sand"
+      intro="Specification-driven silica sand for water filtration, industrial filtration, well-packing and filter media, and procurement-led projects."
+    >
+      <section>
+        <h2 className="text-h4">Selecting a grade</h2>
+        <p className="panel mt-element p-block text-ink-muted">
+          Silica sand suitability depends on grade, particle size, purity, mesh range, and the
+          buyer&rsquo;s intended use.
+        </p>
+      </section>
+      <ProductCTA />
+      <Disclaimer />
+    </PageShell>
+  );
+}

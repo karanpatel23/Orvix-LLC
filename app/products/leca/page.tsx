@@ -1,5 +1,6 @@
-import Button from '@/components/ui/Button';import Disclaimer from '@/components/Disclaimer';
-
+import PageShell from '@/components/PageShell';
+import ProductCTA from '@/components/ProductCTA';
+import Disclaimer from '@/components/Disclaimer';
 import { pageMeta } from '@/lib/seo';
 
 export const metadata = pageMeta({
@@ -9,4 +10,34 @@ export const metadata = pageMeta({
   path: '/products/leca',
 });
 
-export default function Page(){return <section className='containerX section-pad pt-32 space-y-6'><h1 className='text-h1'>LECA</h1><p className='text-ink-muted max-w-3xl'>Lightweight expanded clay aggregate for houseplants, hydroponic setups, drainage layers, horticulture projects, and landscaping applications.</p><ul className='panel p-4 space-y-2'><li>1. Rinse before use</li><li>2. Use as drainage layer or growing medium</li><li>3. Monitor water level</li><li>4. Pair with nutrients for hydroponic use</li><li>5. Adjust by plant type and environment</li></ul><details className='panel p-4'><summary>Specification placeholders</summary><p className='text-ink-muted mt-2'>Grade, size range, moisture profile, packaging, MOQ, origin, and documentation availability on request.</p></details><div className='flex gap-3'><Button href='/contact'>Request Quote</Button><Button href='/contact' variant="secondary">Request Specification</Button></div><Disclaimer/></section>}
+const steps = [
+  'Rinse before use',
+  'Use as drainage layer or growing medium',
+  'Monitor water level',
+  'Pair with nutrients for hydroponic use',
+  'Adjust by plant type and environment',
+];
+
+// TODO(karan): specs. The "Specification placeholders" disclosure was removed
+// from this page. Replace with real figures: grade, size range, moisture
+// profile, packaging, MOQ, origin.
+export default function Page() {
+  return (
+    <PageShell
+      title="LECA"
+      intro="Lightweight expanded clay aggregate for houseplants, hydroponic setups, drainage layers, horticulture projects, and landscaping applications."
+    >
+      <section>
+        <h2 className="text-h4">Using LECA</h2>
+        {/* Numbers come from the ordered list, not from hand-typed "1." prefixes. */}
+        <ol className="panel mt-element list-inside list-decimal space-y-2 p-block marker:font-mono marker:text-accent-soft">
+          {steps.map((step) => (
+            <li key={step}>{step}</li>
+          ))}
+        </ol>
+      </section>
+      <ProductCTA />
+      <Disclaimer />
+    </PageShell>
+  );
+}

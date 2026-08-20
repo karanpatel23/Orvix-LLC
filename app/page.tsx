@@ -20,9 +20,9 @@ export const metadata = pageMeta({
  *
  * Both the audiences and the buyer descriptions are lifted from the existing
  * /industries mapping rather than written fresh, so this section makes no claim
- * the site was not already making. The old block was three equal cards labelled "Pathway 1/2/3", which
- * is the banned generic-step-label pattern: the number carried the emphasis and
- * the audience carried none.
+ * the site was not already making. The old block was three equal cards labelled
+ * "Pathway 1/2/3", the banned generic-step-label pattern: the number carried the
+ * emphasis and the audience carried none.
  */
 const routes = [
   {
@@ -45,10 +45,23 @@ const routes = [
   },
 ];
 
+/**
+ * Three sections, three treatments. Each differs from the one above it on at
+ * least two of surface, alignment and density, because same-shaped stacked
+ * sections is the strongest signal that a page was generated rather than
+ * designed.
+ *
+ *   1. hero      base surface + sieve texture, container width, lowest density
+ *   2. catalog   full-bleed with a boundary rule, 3-column card grid
+ *   3. routes    full-bleed raised band, asymmetric split, densest
+ *
+ * Theme stays locked: the band is one step off the base surface, not an
+ * inverted panel. The page never flips light.
+ */
 export default function Home() {
   return (
-    <div className="surface-sieve">
-      <section className="containerX hero-pad">
+    <>
+      <section className="surface-sieve containerX hero-pad">
         <Reveal mode="enter" y={12}>
           <p className="label">Raleigh, North Carolina · U.S. + India Focus</p>
         </Reveal>
@@ -71,63 +84,79 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="containerX section-pad">
-        <h2 className="text-h2 font-semibold">
-          Materials for homes, industries, and infrastructure.
-        </h2>
-        <ul className="mt-group grid gap-block md:grid-cols-2 xl:grid-cols-3">
-          {products.map((product, index) => (
-            <li key={product.slug}>
-              <Reveal delay={index * 0.06} y={22} className="h-full">
-                <ProductCard p={product} />
-              </Reveal>
-            </li>
-          ))}
-        </ul>
+      {/*
+        Full-bleed so the boundary rule spans the viewport rather than stopping at
+        the container edge. Without it this section shared the hero's surface,
+        width and alignment, and the two read as one continuous column.
+      */}
+      <section className="border-t border-line-hairline">
+        <div className="containerX section-pad">
+          <h2 className="text-h2 font-semibold">
+            Materials for homes, industries, and infrastructure.
+          </h2>
+          <ul className="mt-group grid gap-block md:grid-cols-2 xl:grid-cols-3">
+            {products.map((product, index) => (
+              <li key={product.slug}>
+                <Reveal delay={index * 0.06} y={22} className="h-full">
+                  <ProductCard p={product} />
+                </Reveal>
+              </li>
+            ))}
+          </ul>
+        </div>
       </section>
 
       {/*
-        A numbered editorial sequence rather than a third card grid. The section
-        above is already a card grid, and repeating the layout family is what makes
-        stacked sections read as generated.
+        Full-bleed raised band, and the heading moves out of the content column
+        into its own sticky rail. Different surface, different alignment, and
+        tighter rows than the card grid above.
       */}
-      <section className="containerX section-pad">
-        <h2 className="text-h2 font-semibold">Who we supply.</h2>
+      <section className="band">
+        <div className="containerX section-pad lg:grid lg:grid-cols-[minmax(0,16rem)_1fr] lg:gap-x-16">
+          <div className="lg:sticky lg:top-[calc(var(--nav-h)+2rem)] lg:self-start">
+            <h2 className="text-h2 font-semibold">Who we supply.</h2>
+          </div>
 
-        <ol className="mt-group divide-y divide-line-subtle border-t border-line-subtle">
-          {routes.map((route, index) => (
-            <li key={route.audience}>
-              <Link
-                href={route.href}
-                className="group grid grid-cols-[auto_1fr] items-baseline gap-x-6 gap-y-3 py-block
-                           transition-colors md:grid-cols-[4rem_minmax(0,22rem)_1fr] md:gap-x-10"
-              >
-                <span aria-hidden="true" className="font-mono text-h3 leading-none text-accent-soft">
-                  {String(index + 1).padStart(2, '0')}
-                </span>
-
-                <span className="col-start-2">
-                  <span className="block text-h4 transition-colors group-hover:text-accent-soft">
-                    {route.audience}
+          <ol className="mt-group divide-y divide-line-subtle border-t border-line-subtle lg:mt-0">
+            {routes.map((route, index) => (
+              <li key={route.audience}>
+                <Link
+                  href={route.href}
+                  className="group grid grid-cols-[auto_1fr] items-baseline gap-x-6 gap-y-2 py-block
+                             md:grid-cols-[3rem_minmax(0,18rem)_1fr] md:gap-x-10"
+                >
+                  <span
+                    aria-hidden="true"
+                    className="font-mono text-h4 leading-none text-accent-soft"
+                  >
+                    {String(index + 1).padStart(2, '0')}
                   </span>
-                  <span className="mt-2 block text-sm text-ink-muted md:hidden">{route.detail}</span>
-                </span>
 
-                <span className="col-span-2 col-start-1 md:col-span-1 md:col-start-3">
-                  <span className="hidden text-sm text-ink-muted md:block">{route.detail}</span>
-                  <span className="mt-0 block md:mt-3">
-                    {route.materials.map((material) => (
-                      <span key={material} className="spec mr-4 inline-block text-ink-faint">
-                        {material}
-                      </span>
-                    ))}
+                  <span className="col-start-2">
+                    <span className="block text-h4 transition-colors group-hover:text-accent-soft">
+                      {route.audience}
+                    </span>
+                    <span className="mt-2 block text-sm text-ink-muted md:hidden">
+                      {route.detail}
+                    </span>
                   </span>
-                </span>
-              </Link>
-            </li>
-          ))}
-        </ol>
+
+                  <span className="col-span-2 col-start-1 md:col-span-1 md:col-start-3">
+                    <span className="hidden text-sm text-ink-muted md:block">{route.detail}</span>
+                    <span className="mt-1 block md:mt-2">
+                      {route.materials.map((material) => (
+                        <span key={material} className="spec mr-4 inline-block text-ink-faint">
+                          {material}
+                        </span>
+                      ))}
+                    </span>
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ol>
+        </div>
       </section>
-    </div>
+    </>
   );
 }

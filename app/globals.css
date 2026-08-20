@@ -110,6 +110,21 @@
     }
   }
 
+  /**
+   * Full-bleed surface band.
+   *
+   * Sections previously all sat on surface-base with the same container and the
+   * same alignment, so the page read as one undifferentiated column. A band
+   * changes the surface edge to edge rather than tinting a boxed area, which is
+   * what makes the change legible as a section boundary.
+   *
+   * Stays inside the dark theme: surface-raised is one step off surface-base, not
+   * an inverted panel. The page never flips light.
+   */
+  .band {
+    @apply border-y border-line-hairline bg-surface-raised;
+  }
+
   /* Uppercase micro-label. Rationed: see PLAN.md, max one per three sections. */
   .label {
     @apply font-mono text-label uppercase text-accent-soft;

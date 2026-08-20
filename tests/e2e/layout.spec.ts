@@ -140,3 +140,53 @@ test.describe('content is never hidden by a reveal', () => {
     }
   });
 });
+
+/**
+ * Guards the "same-shaped stacked sections" tell. The homepage previously ran
+ * three sections through one container at one width, on one flat surface, with
+ * one alignment. Each section must now differ from its neighbour on surface or
+ * width, and the theme must stay locked to the dark family.
+ */
+test.describe('sections are visually distinguishable', () => {
+  test('adjacent homepage sections differ in surface or width', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto('/', { waitUntil: 'networkidle' });
+
+    const sections = await page.evaluate(() =>
+      Array.from(document.querySelectorAll('main > section')).map((el) => ({
+        bg: getComputedStyle(el as HTMLElement).backgroundColor,
+        width: Math.round(el.getBoundingClientRect().width),
+      }))
+    );
+
+    expect(sections.length).toBeGreaterThanOrEqual(3);
+    for (let i = 1; i < sections.length; i += 1) {
+      const differs =
+        sections[i].bg !== sections[i - 1].bg || sections[i].width !== sections[i - 1].width;
+      expect(
+        differs,
+        `section ${i + 1} is indistinguishable from section ${i}`
+      ).toBe(true);
+    }
+  });
+
+  test('no section inverts the dark theme', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    for (const route of ['/', '/about', '/products']) {
+      await page.goto(route, { waitUntil: 'networkidle' });
+      const tooLight = await page.evaluate(() =>
+        Array.from(document.querySelectorAll<HTMLElement>('main > section, main > section > div'))
+          .map((el) => getComputedStyle(el).backgroundColor)
+          .filter((bg) => {
+            const m = bg.match(/rgba?\((\d+), (\d+), (\d+)(?:, ([\d.]+))?\)/);
+            if (!m) return false;
+            if (m[4] !== undefined && parseFloat(m[4]) === 0) return false;
+            // relative luminance, rough: anything bright is a theme flip
+            const [r, g, b] = [+m[1], +m[2], +m[3]];
+            return 0.2126 * r + 0.7152 * g + 0.0722 * b > 90;
+          })
+      );
+      expect(tooLight, `${route} has a light section`).toEqual([]);
+    }
+  });
+});
